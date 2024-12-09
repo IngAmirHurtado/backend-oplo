@@ -46,10 +46,37 @@ export const updateProfilePic = async (req, res) => {
     const { profilePic } = req.body;
     const user = req.user;
 
-    if(!profilePic) return res.status(400).json({ message: 'La imagen es requerida' });
+    if (!profilePic) {
+        return res.status(400).json({ message: 'La imagen es requerida' });
+    }
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
-    const updateUser = await User.findByIdAndUpdate(user._id, {profilePic: uploadResponse.secure_url}, {new: true});
+    try {
+        // Subir la nueva imagen
+        const uploadResponse = await cloudinary.uploader.upload(profilePic);
 
-    res.status(200).json(updateUser);
+        // Destruir la imagen anterior si existe
+        if (user.profilePic) {
+            // Extraer public_id si solo tienes la URL
+            const publicId = extractPublicId(user.profilePic);
+            await cloudinary.uploader.destroy(publicId);
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            user._id,
+            { profilePic: uploadResponse.secure_url },
+            { new: true }
+        );
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al actualizar la foto de perfil', error });
+    }
+};
+
+// Función para extraer el public_id de la URL de Cloudinary
+function extractPublicId(url) {
+    const parts = url.split('/');
+    const fileName = parts.pop().split('.')[0]; // Elimina la extensión (e.g., .jpg, .png)
+    return `${parts.slice(-2).join('/')}/${fileName}`; // Ajusta según la estructura de tus URLs
 }
