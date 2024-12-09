@@ -30,11 +30,7 @@ export const signup = async (req, res) => {
 
   const token = await createToken({ id: newUser._id });
 
-  res.cookie("token", token, {
-    httpOnly: true, // Solo accesible desde el servidor, no desde JavaScript del navegador.
-    sameSite: "none",
-    secure: process.env.NODE_ENV === "production" // Solo enviar cookies seguras en producción.
-});
+  res.cookie("token", token);
 
   return res.status(200).json({ 
     _id: newUser._id,
@@ -61,11 +57,7 @@ export const login = async (req, res) => {
 
     const token = await createToken({id: user._id});
 
-    res.cookie("token", token, {
-        httpOnly: true, // Solo accesible desde el servidor, no desde JavaScript del navegador.
-        sameSite: "none",
-        secure: process.env.NODE_ENV === "production" // Solo enviar cookies seguras en producción.
-    });
+    res.cookie("token", token);
 
     return res.status(200).json({
         _id: user._id,
