@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true, // Solo accesible desde el servidor, no desde JavaScript del navegador.
-    sameSite: "strict", // Protege contra ataques CSRF.
+    sameSite: "none",
     secure: process.env.NODE_ENV === "production" // Solo enviar cookies seguras en producción.
 });
 
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
 
     res.cookie("token", token, {
         httpOnly: true, // Solo accesible desde el servidor, no desde JavaScript del navegador.
-        sameSite: "strict", // Protege contra ataques CSRF.
+        sameSite: "none",
         secure: process.env.NODE_ENV === "production" // Solo enviar cookies seguras en producción.
     });
 
