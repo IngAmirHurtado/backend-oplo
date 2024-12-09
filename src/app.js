@@ -21,6 +21,14 @@ app.use(cors({
   credentials: true,
 }));
 
+// Configuración de encabezados adicionales
+app.use((req, res, next) => {
+  res.header("Cross-Origin-Opener-Policy", "same-origin");
+  res.header("Cross-Origin-Embedder-Policy", "require-corp");
+  next();
+});
+
+
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/message", messageRotes);

@@ -33,7 +33,7 @@ export const signup = async (req, res) => {
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // solo en producción
-    sameSite: "Lax", // Necesario para que funcione con cookies cruzadas
+    sameSite: "None", // Necesario para que funcione con cookies cruzadas
   });
 
   return res.status(200).json({ 
@@ -64,7 +64,7 @@ export const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // solo en producción
-      sameSite: "Lax", // Necesario para que funcione con cookies cruzadas
+      sameSite: "None", // Necesario para que funcione con cookies cruzadas
     });
 
     return res.status(200).json({
