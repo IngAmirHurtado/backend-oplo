@@ -21,10 +21,9 @@ app.use(cors({
   credentials: true,
 }));
 
-// Configuración de encabezados adicionales
 app.use((req, res, next) => {
-  res.header("Cross-Origin-Opener-Policy", "same-origin");
-  res.header("Cross-Origin-Embedder-Policy", "require-corp");
+  res.header("Access-Control-Allow-Origin", "https://oplo.amirhurtado.com");
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 
