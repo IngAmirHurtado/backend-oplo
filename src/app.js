@@ -21,12 +21,6 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://oplo.amirhurtado.com");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
-
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
